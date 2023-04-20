@@ -27,8 +27,31 @@ const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 16);
 const planeGeometry = new THREE.PlaneGeometry(5, 5);
 const torusGeometry = new THREE.TorusGeometry(8, 3, 10, 100);
 
+// バッファジオメトリ
+const bufferGeometry = new THREE.BufferGeometry();
+
 //マテリアル
-const material = new THREE.MeshNormalMaterial();
+const material = new THREE.MeshBasicMaterial({
+  fireframe: true,
+});
+
+const positionArray = new Float32Array(9);
+
+positionArray[0] = 0;
+positionArray[1] = 0;
+positionArray[2] = 0;
+
+positionArray[3] = 0;
+positionArray[4] = 1;
+positionArray[5] = 0;
+
+positionArray[6] = 1;
+positionArray[7] = 0;
+positionArray[8] = 0;
+
+const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
+
+bufferGeometry.setAttribute('position', positionAttribute);
 
 // メッシュ化
 const box = new THREE.Mesh(boxGeometry, material);
@@ -36,10 +59,13 @@ const sphere = new THREE.Mesh(sphereGeometry, material);
 const plane = new THREE.Mesh(planeGeometry, material);
 const torus = new THREE.Mesh(torusGeometry, material);
 
+const buffer = new THREE.Mesh(bufferGeometry, material);
+
 sphere.position.x = 1.5;
 plane.rotation.x = -Math.PI * 0.5;
 plane.position.y = -0.5;
-scene.add(box, sphere, plane, torus);
+// scene.add(box, sphere, plane, torus);
+scene.add(buffer);
 
 //ライト
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
